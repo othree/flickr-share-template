@@ -5,7 +5,7 @@
 
     "use strict";
 
-    var default_tpl = '<a href="#{url}" title="Flickr 上 #{owner.username} 的 #{title}"><img src="#{Large.source}" width="#{Large.width}" height="#{Large.height}" alt="#{title}" srcset="#{Large2048.source} 2x" /></a>';
+    var default_tpl = '<a href="#{url}" title="Flickr 上 #{owner.username} 的 #{title}"><img src="#{Large.source}" width="#{Large.width}" height="#{Large.height}" alt="#{title}" srcset="#{Medium.source} 768w, #{Large.source} 768w 2x, #{Large2048.source} 2x" /></a>';
 
     var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
 
