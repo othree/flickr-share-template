@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-tw">
-<link rel="stylesheet" href="css/popup.css"/>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/popup.css"/>
+    </head>
+    <body>
+        <section id="loading">
+            <img src='images/loading.gif'>
+        </section>
 
-    <section id="loading">
-        <img src='images/loading.gif'>
-    </section>
+        <section id="share">
+        <h2 aria-control='share'>Share</h2>
+        <textarea id="share_txt"></textarea>
+        </section>
 
-    <section id="share">
-    <h2 aria-control='share'>Share</h2>
-    <textarea></textarea>
-    </section>
+        <section id="template">
+        <h2 aria-control='template'>Template</h2>
+        <textarea id="template_txt"></textarea>
+        </section>
 
-    <section id="template">
-    <h2 aria-control='template'>Template</h2>
-    <textarea id="template_txt"></textarea>
-    </section>
+        <section id="nosupport">
+        <h2>Not Support Page</h2>
+        </section>
 
-    <section id="nosupport">
-    <h2>Not Support Page</h2>
-    </section>
-
-    <script type="text/javascript" src="js/popup.js"></script>
-</body>
+        <script type="text/javascript" src="js/popup.js"></script>
+    </body>
 </html>

@@ -5,9 +5,24 @@
 
     "use strict";
 
-    var default_tpl = 'A_A';
+    var default_tpl = '<a href="#{url}" title="Flickr 上 #{owner.username} 的 #{title}"><img src="#{Large.source}" width="#{Large.width}" height="#{Large.height}" alt="#{title}" srcset="#{Large2048.source} 2x" /></a>';
 
     var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
+
+    var SIZES_LABEL = {
+        Square: true,
+        LargeSquare: true,
+        Thumbnail: true,
+        Small: true,
+        Small320: true,
+        Medium: true,
+        Medium640: true,
+        Medium800: true,
+        Large: true,
+        Large1600: true,
+        Large2048: true,
+        Original: true
+    };
 
     var jsonFlickrApi = function (data) { return data; };
 
@@ -22,7 +37,8 @@
             node = nodes[i];
             label = node.getAttribute('label').replace(' ', '');
             item = {
-                url: node.getAttribute('source'),
+                url: node.getAttribute('url'),
+                source: node.getAttribute('source'),
                 width: node.getAttribute('width'),
                 height: node.getAttribute('height')
             };
@@ -34,7 +50,9 @@
 
     var parseMeta = function (node) {
         var title = '',
-            desc = '';
+            desc = '',
+            owner = {},
+            url = '';
 
         if (node.querySelector('title').firstChild) {
             title = node.querySelector('title').firstChild.nodeValue;
@@ -42,15 +60,37 @@
         if (node.querySelector('description').firstChild) {
             desc = node.querySelector('description').firstChild.nodeValue;
         }
+        owner = {
+            username: node.querySelector('owner').getAttribute('username')
+        };
+        url = node.querySelector('urls > url').firstChild.nodeValue;
+
         return {
             title: title,
-            description: desc
+            description: desc,
+            owner: owner,
+            url: url
         };
     };
 
+    var lookup = function (data, key) {
+        var keys = key.split('.'),
+            k = keys.shift(),
+            v = data;
+
+        while (k && v) {
+            v = v[k];
+            k = keys.shift();
+        }
+        return v;
+    };
 
     var render = function (tpl, meta, sizes) {
-
+        var result = tpl.replace(/#\{[\w\d\.]+\}/g, function (param) {
+            var key = param.slice(2, -1);
+            return lookup(meta, key) || lookup(sizes, key) || '';
+        });
+        document.getElementById('share_txt').innerHTML = result;
     };
 
     var active = function (photo_id) {
