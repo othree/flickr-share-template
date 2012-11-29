@@ -10,6 +10,13 @@ textarea {
 	height: 100px;
 }
 
+#loading {
+    text-align: center;
+}
+
+#share,
+#template,
 #nosupport {
 	display: none;
 }
+

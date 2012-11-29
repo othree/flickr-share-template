@@ -101,6 +101,7 @@ chrome.tabs.query({active: true}, function (tabs) {
 
 	var frags = urlobj.pathname.split('/');
 
+    document.getElementById('loading').style.display = 'none';
 	if (urlobj.hostname == 'www.flickr.com' && frags.length >= 4 && frags[1] == 'photos') {
 		document.getElementById('share').style.display = 'block';
 		document.getElementById('template').style.display = 'none';
