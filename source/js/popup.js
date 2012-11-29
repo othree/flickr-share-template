@@ -1,6 +1,5 @@
 (function () {
 
-
 var default_tpl = 'A_A';
 
 var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
@@ -63,7 +62,6 @@ var active = function (photo_id) {
 		flag = 0;
 
 	xhr1.open("GET", url1, true);
-	xhr1.responseType = "xml";
 	xhr1.onload = function(e) {
 		var data = xhr1.response,
 			parser = new DOMParser(),
@@ -78,7 +76,6 @@ var active = function (photo_id) {
 	xhr1.send();
 
 	xhr2.open("GET", url2, true);
-	xhr2.responseType = "xml";
 	xhr2.onload = function(e) {
 		var data = xhr2.response,
 			parser = new DOMParser(),
