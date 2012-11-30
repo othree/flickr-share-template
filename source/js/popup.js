@@ -5,7 +5,7 @@
 
     "use strict";
 
-    var default_tpl = '<a href="#{url}" title="Flickr 上 #{owner.username} 的 #{title}"><img src="#{Large.source}" width="#{Large.width}" height="#{Large.height}" alt="#{title}" srcset="#{Medium.source} 768w, #{Large.source} 768w 2x, #{Large2048.source} 2x" /></a>';
+    var default_tpl = '<a class="thumbnail" href="{{url}}" title="Flickr 上 {{owner.username}} 的 {{title}}"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w, {{Large.sourceNoProtocol}} 768w 2x{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
 
     var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
 
@@ -24,8 +24,6 @@
         Original: true
     };
 
-    var jsonFlickrApi = function (data) { return data; };
-
     var parseSizes = function (nodes) {
         var data = {},
             item = {},
@@ -39,6 +37,7 @@
             item = {
                 url: node.getAttribute('url'),
                 source: node.getAttribute('source'),
+                sourceNoProtocol: node.getAttribute('source').replace(/^http:/, ''),
                 width: node.getAttribute('width'),
                 height: node.getAttribute('height')
             };
@@ -86,8 +85,10 @@
     };
 
     var render = function (tpl, meta, sizes) {
-        var result = tpl.replace(/#\{[\w\d\.]+\}/g, function (param) {
-            var key = param.slice(2, -1);
+        var result = tpl.replace(/{{#([\w\d]+)}}(.*){{\/\1}}/g, function (match, test, context) {
+            return ( lookup(meta, test) || lookup(sizes, test) ) ? context : '';
+        });
+        result = result.replace(/{{([\w\d\.]+)}}/g, function (match, key) {
             return lookup(meta, key) || lookup(sizes, key) || '';
         });
         document.getElementById('share_txt').innerHTML = result;
@@ -147,7 +148,7 @@
         var frags = urlobj.pathname.split('/');
 
         document.getElementById('loading').style.display = 'none';
-        if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos') {
+        if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
             document.getElementById('share').style.display = 'block';
             document.getElementById('template').style.display = 'none';
             document.getElementById('nosupport').style.display = 'none';
