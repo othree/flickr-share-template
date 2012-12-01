@@ -137,27 +137,55 @@
         xhr2.send();
     };
 
+    var go = function () {
+        chrome.tabs.query({active: true}, function (tabs) {
+            var tab = tabs[0],
+                url = tab.url,
+                urlobj = document.createElement('a');
 
-    chrome.tabs.query({active: true}, function (tabs) {
-        var tab = tabs[0],
-            url = tab.url,
-            urlobj = document.createElement('a');
+            urlobj.href = url;
 
-        urlobj.href = url;
+            var frags = urlobj.pathname.split('/');
 
-        var frags = urlobj.pathname.split('/');
+            document.getElementById('loading').style.display = 'none';
+            if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
+                document.getElementById('share').style.display = 'block';
+                document.getElementById('template').style.display = 'block';
+                document.getElementById('nosupport').style.display = 'none';
+                active(frags[3]);
+            } else {
+                document.getElementById('share').style.display = 'none';
+                document.getElementById('template').style.display = 'none';
+                document.getElementById('nosupport').style.display = 'block';
+            }
+        });
+    };
 
-        document.getElementById('loading').style.display = 'none';
-        if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
-            document.getElementById('share').style.display = 'block';
-            document.getElementById('template').style.display = 'none';
-            document.getElementById('nosupport').style.display = 'none';
-            active(frags[3]);
+    document.getElementById('template_txt').addEventListener('blur', function () {
+        localStorage.setItem('template', this.value || default_tpl);
+        go();
+    }, false);
+    document.getElementById('template_txt').addEventListener('keydown', function (event) {
+        if (event.keyCode === 13) {
+            localStorage.setItem('template', this.value || default_tpl);
+            go();
+        }
+    }, false);
+
+    document.querySelector('#expand span').addEventListener('click', function () {
+        var txt = document.getElementById('template_txt');
+        debugger;
+        if (txt.style.display !== 'inline') {
+            txt.style.display = 'inline';
+            this.innerHTML = 'hide';
         } else {
-            document.getElementById('share').style.display = 'none';
-            document.getElementById('template').style.display = 'none';
-            document.getElementById('nosupport').style.display = 'block';
+            txt.style.display = 'none';
+            this.innerHTML = 'show';
         }
     });
+
+    document.getElementById('template_txt').value = localStorage.getItem('template') || default_tpl;
+
+    go();
 
 }());

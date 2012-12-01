@@ -6,7 +6,7 @@ h2 {
 	width: 200px;
 }
 textarea {
-	width: 250px;
+	width: 350px;
 	height: 100px;
 }
 
@@ -20,3 +20,15 @@ textarea {
 	display: none;
 }
 
+#template_txt {
+	width: 350px;
+	height: 200px;
+	display: none;
+}
+
+#expand {
+	font-size: 12px;
+}
+#expand span {
+	color: #69f;
+}
