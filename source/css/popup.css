@@ -31,4 +31,6 @@ textarea {
 }
 #expand span {
 	color: #69f;
+	cursor: pointer;
+	user-select: none;
 }

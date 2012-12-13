@@ -92,6 +92,10 @@
             return lookup(meta, key) || lookup(sizes, key) || '';
         });
         document.getElementById('share_txt').innerHTML = result;
+        document.getElementById('share').style.display = 'block';
+        document.getElementById('template').style.display = 'block';
+        document.getElementById('nosupport').style.display = 'none';
+        document.getElementById('loading').style.display = 'none';
     };
 
     var active = function (photo_id) {
@@ -147,13 +151,10 @@
 
             var frags = urlobj.pathname.split('/');
 
-            document.getElementById('loading').style.display = 'none';
             if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
-                document.getElementById('share').style.display = 'block';
-                document.getElementById('template').style.display = 'block';
-                document.getElementById('nosupport').style.display = 'none';
                 active(frags[3]);
             } else {
+                document.getElementById('loading').style.display = 'none';
                 document.getElementById('share').style.display = 'none';
                 document.getElementById('template').style.display = 'none';
                 document.getElementById('nosupport').style.display = 'block';
