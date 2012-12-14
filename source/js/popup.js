@@ -175,7 +175,6 @@
 
     document.querySelector('#expand span').addEventListener('click', function () {
         var txt = document.getElementById('template_txt');
-        debugger;
         if (txt.style.display !== 'inline') {
             txt.style.display = 'inline';
             this.innerHTML = 'hide';
