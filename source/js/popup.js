@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true */
-/*global chrome: false, window: false, document: false, XMLHttpRequest: false, DOMParser: false */
+/*global chrome: false, window: false, document: false, XMLHttpRequest: false, DOMParser: false, localStorage: false */
 
 (function () {
 
