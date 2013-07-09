@@ -12,17 +12,30 @@
 
     var SIZES_LABEL = {
         Square: true,
+        Square75: true,
         LargeSquare: true,
+        Square150: true,
         Thumbnail: true,
         Small: true,
+        Small240: true,
         Small320: true,
         Medium: true,
+        Medium500: true,
         Medium640: true,
         Medium800: true,
         Large: true,
+        Large1024: true,
         Large1600: true,
         Large2048: true,
         Original: true
+    };
+
+    var LABEL_MAPPING = {
+        Square: 'Square75',
+        LargeSquare: 'Square150',
+        Small: 'Small240',
+        Medium: 'Medium500',
+        Large: 'Large1024'
     };
 
     var parseSizes = function (doc) {
@@ -42,8 +55,12 @@
                 width: node.getAttribute('width'),
                 height: node.getAttribute('height')
             };
+            if (LABEL_MAPPING[label]) {
+                data[LABEL_MAPPING[label]] = data[label];
+            }
         }
 
+        console.log(data);
         return data;
     };
 
