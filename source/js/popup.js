@@ -76,7 +76,6 @@
 
     var handler = {
         renderDone: function (result) {
-            console.log('done');
             document.getElementById('share_txt').innerHTML = result;
             document.getElementById('share').style.display = 'block';
             document.getElementById('template').style.display = 'block';
