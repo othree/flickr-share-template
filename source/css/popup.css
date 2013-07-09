@@ -34,3 +34,8 @@ textarea {
 	cursor: pointer;
 	user-select: none;
 }
+
+#hogan {
+    position: absolute;
+    top: 100%;
+}

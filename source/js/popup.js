@@ -2,8 +2,9 @@
 /*global chrome: false, window: false, document: false, XMLHttpRequest: false, DOMParser: false, localStorage: false */
 
 (function () {
-
     "use strict";
+
+    var hogan = document.getElementById('hogan').contentWindow;
 
     var default_tpl = '<a class="thumbnail" href="{{url}}" title="Flickr 上 {{owner.username}} 的 {{title}}"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w, {{Large.sourceNoProtocol}} 768w 2x{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
 
@@ -72,30 +73,34 @@
         };
     };
 
-    var lookup = function (data, key) {
-        var keys = key.split('.'),
-            k = keys.shift(),
-            v = data;
 
-        while (k && v) {
-            v = v[k];
-            k = keys.shift();
+    var handler = {
+        renderDone: function (result) {
+            console.log('done');
+            document.getElementById('share_txt').innerHTML = result;
+            document.getElementById('share').style.display = 'block';
+            document.getElementById('template').style.display = 'block';
+            document.getElementById('nosupport').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
         }
-        return v;
     };
 
-    var render = function (tpl, meta, sizes) {
-        var result = tpl.replace(/{{#([\w\d]+)}}(.*){{\/\1}}/g, function (match, test, context) {
-            return ( lookup(meta, test) || lookup(sizes, test) ) ? context : '';
-        });
-        result = result.replace(/{{([\w\d\.]+)}}/g, function (match, key) {
-            return lookup(meta, key) || lookup(sizes, key) || '';
-        });
-        document.getElementById('share_txt').innerHTML = result;
-        document.getElementById('share').style.display = 'block';
-        document.getElementById('template').style.display = 'block';
-        document.getElementById('nosupport').style.display = 'none';
-        document.getElementById('loading').style.display = 'none';
+    window.addEventListener('message', function (event) {
+        var data = event.data;
+        handler[data.event](data.value);
+    }, false);
+
+    var render = function (tpl, data) {
+        hogan.postMessage({compile: [tpl]}, '*');
+        hogan.postMessage({render: [data]}, '*');
+    };
+
+    var extend = function (dest, source) {
+        var key;
+        for (key in source) {
+            dest[key] = source[key];
+        }
+        return dest;
     };
 
     var active = function (photo_id) {
@@ -120,7 +125,8 @@
             meta = parseMeta(xmlDoc);
             flag++;
             if (flag === 2) {
-                render(tpl, meta, sizes);
+                meta = extend(meta, sizes);
+                render(tpl, meta);
             }
         };
         xhr1.send();
@@ -135,7 +141,8 @@
             sizes = parseSizes(sizeNodes);
             flag++;
             if (flag === 2) {
-                render(tpl, meta, sizes);
+                meta = extend(meta, sizes);
+                render(tpl, meta);
             }
         };
         xhr2.send();
@@ -162,15 +169,15 @@
         });
     };
 
-    document.getElementById('template_txt').addEventListener('blur', function () {
+
+    var readAndGo = function () {
         localStorage.setItem('template', this.value || default_tpl);
         go();
-    }, false);
+    };
+
+    document.getElementById('template_txt').addEventListener('blur', readAndGo, false);
     document.getElementById('template_txt').addEventListener('keydown', function (event) {
-        if (event.keyCode === 13) {
-            localStorage.setItem('template', this.value || default_tpl);
-            go();
-        }
+        if (event.keyCode === 13) { readAndGo(); }
     }, false);
 
     document.querySelector('#expand span').addEventListener('click', function () {
