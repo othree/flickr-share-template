@@ -6,7 +6,7 @@
 
     var hogan = document.getElementById('hogan').contentWindow;
 
-    var default_tpl = '<a class="thumbnail" href="{{url}}" title="Flickr 上 {{owner.username}} 的 {{title}}"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w{{#Large}}, {{Large.sourceNoProtocol}} 768w 2x{{/Large}}{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
+    var default_tpl = '<a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w{{#Large}}, {{Large.sourceNoProtocol}} 768w 2x{{/Large}}{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
 
     var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
 
