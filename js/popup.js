@@ -4,7 +4,8 @@
 (function () {
     "use strict";
 
-    var hogan = document.getElementById('hogan').contentWindow;
+    var urlapikey = 'private/api_key.json';
+    var urltpl = 'template/default.mustache';
 
     var current_tpl = '';
 
@@ -35,6 +36,8 @@
         Medium: 'Medium500',
         Large: 'Large1024'
     };
+
+    var hogan = document.getElementById('hogan').contentWindow;
 
     var parseSizes = function (doc) {
         var nodes = doc.querySelectorAll('rsp>sizes>size'),
@@ -149,7 +152,6 @@
     };
 
     var active = function (photo_id) {
-        var urlapikey = 'private/api_key.json';
         get(urlapikey).then(function (api_key) {
             var urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
                 urlsize = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
@@ -209,7 +211,7 @@
 
     var tpldfd = Q.resolve(localStorage.getItem('template')).then(function (tpl) {
         if (tpl) { return tpl; }
-        return get('template/default.mustache');
+        return get(urltpl);
     });
 
     tpldfd.done(function (tpl) {
