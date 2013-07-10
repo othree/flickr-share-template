@@ -10,8 +10,6 @@
 
     var current_tpl = '';
 
-    var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
-
     var SIZES_LABEL = {
         Square: true,
         Square75: true,
@@ -153,10 +151,13 @@
     };
 
     var active = function (photo_id) {
-        var urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
-            urlsize = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
+        var urlapikey = 'private/api_key.json';
+        get(urlapikey).then(function (api_key) {
+            var urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
+                urlsize = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
 
-        Q.all([getXML(urlmeta), getXML(urlsize)]).then(function (xmls) {
+            return Q.all([getXML(urlmeta), getXML(urlsize)]);
+        }).then(function (xmls) {
             render(extend(parseMeta(xmls[0]), parseSizes(xmls[1])));
         });
     };
