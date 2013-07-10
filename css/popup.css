@@ -35,6 +35,12 @@ textarea {
 	user-select: none;
 }
 
+#doc {
+    display: none;
+    margin: 4px auto 0;
+    font-size: 80%;
+}
+
 #hogan {
     position: absolute;
     top: 100%;

@@ -190,11 +190,14 @@
 
     document.querySelector('#expand span').addEventListener('click', function () {
         var txt = document.getElementById('template_txt');
+        var doc = document.getElementById('doc');
         if (txt.style.display !== 'inline') {
             txt.style.display = 'inline';
+            doc.style.display = 'block';
             this.innerHTML = 'hide';
         } else {
             txt.style.display = 'none';
+            doc.style.display = 'none';
             this.innerHTML = 'show';
         }
     });
