@@ -216,6 +216,19 @@
         });
     };
 
+    var openInNewTab = function (url) {
+        return chrome.tabs.create({url: url});
+    };
+    var openLinkInNewTab = function (link) {
+        return openInNewTab(this.getAttribute('href'));
+    };
+
+    var links = document.querySelectorAll('p a'),
+        i = 0;
+    for (i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', openLinkInNewTab, false);
+    }
+
     document.getElementById('template_txt').addEventListener('blur', readAndGo, false);
     document.getElementById('template_txt').addEventListener('keydown', function (event) {
         if (event.keyCode === 13) { readAndGo(); }
