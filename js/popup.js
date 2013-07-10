@@ -6,8 +6,6 @@
 
     var hogan = document.getElementById('hogan').contentWindow;
 
-    var default_tpl = '<a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w{{#Large}}, {{Large.sourceNoProtocol}} 768w 2x{{/Large}}{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
-
     var current_tpl = '';
 
     var SIZES_LABEL = {
@@ -181,7 +179,6 @@
     };
 
     var newTemplate = function (tpl) {
-        tpl = tpl || default_tpl;
         if (tpl !== current_tpl) {
             current_tpl = tpl;
             localStorage.setItem('template', tpl);
@@ -210,13 +207,22 @@
         }
     });
 
-    document.getElementById('template_txt').value = localStorage.getItem('template') || default_tpl;
+    var tpldfd = Q.resolve(localStorage.getItem('template')).then(function (tpl) {
+        if (tpl) { return tpl; }
+        return get('template/default.mustache');
+    });
 
-    //Delay to wait until iframe ready
-    setTimeout(function () {
-        var event = document.createEvent('Event');
-        event.initEvent('blur', true, true);
-        document.getElementById('template_txt').dispatchEvent(event);
-    }, 100);
+    tpldfd.done(function (tpl) {
+        document.getElementById('template_txt').value = tpl;
+    });
+
+    tpldfd.done(function () {
+        //Delay to wait until iframe ready
+        setTimeout(function () {
+            var event = document.createEvent('Event');
+            event.initEvent('blur', true, true);
+            document.getElementById('template_txt').dispatchEvent(event);
+        }, 100);
+    });
 
 }());
