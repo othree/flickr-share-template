@@ -96,13 +96,6 @@
         document.getElementById('loading').style.display = 'none';
     };
 
-    var hide = function () {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('share').style.display = 'none';
-        document.getElementById('template').style.display = 'none';
-        document.getElementById('nosupport').style.display = 'block';
-    };
-
     var handler = {
         compileDone: function () {
         },
@@ -172,11 +165,7 @@
 
             var frags = urlobj.pathname.split('/');
 
-            if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
-                active(frags[3]);
-            } else {
-                hide();
-            }
+            active(frags[3]);
         });
     };
 

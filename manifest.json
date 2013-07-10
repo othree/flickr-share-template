@@ -1,6 +1,6 @@
 {
     "name": "Flickr Share with Template",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "manifest_version": 2,
     "minimum_chrome_version": "21",
     "icons": {
@@ -8,7 +8,10 @@
         "48":  "icons/48x48.png",
         "16":  "icons/16x16.png"
     },
-    "browser_action": {
+    "background": {
+        "scripts": ["js/background.js"]
+    },
+    "page_action": {
         "default_icon": {
             "19": "icons/19x19.png",
             "38": "icons/38x38.png"
