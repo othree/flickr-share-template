@@ -8,6 +8,8 @@
 
     var default_tpl = '<a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr"><img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" alt="{{title}}" srcset="{{Medium.sourceNoProtocol}} 768w{{#Large}}, {{Large.sourceNoProtocol}} 768w 2x{{/Large}}{{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" /></a>';
 
+    var current_tpl = '';
+
     var api_key = '10f5fbcc6287ee905f7df31b25be1cff';
 
     var SIZES_LABEL = {
@@ -88,14 +90,26 @@
         };
     };
 
+    var show = function () {
+        document.getElementById('share').style.display = 'block';
+        document.getElementById('template').style.display = 'block';
+        document.getElementById('nosupport').style.display = 'none';
+        document.getElementById('loading').style.display = 'none';
+    };
+
+    var hide = function () {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('share').style.display = 'none';
+        document.getElementById('template').style.display = 'none';
+        document.getElementById('nosupport').style.display = 'block';
+    };
+
     var handler = {
-        compileDone: function () {},
+        compileDone: function () {
+        },
         renderDone: function (result) {
             document.getElementById('share_txt').innerHTML = result;
-            document.getElementById('share').style.display = 'block';
-            document.getElementById('template').style.display = 'block';
-            document.getElementById('nosupport').style.display = 'none';
-            document.getElementById('loading').style.display = 'none';
+            show();
         }
     };
 
@@ -104,8 +118,7 @@
         handler[data.event](data.value);
     }, false);
 
-    var render = function (tpl, data) {
-        hogan.postMessage({compile: [tpl]}, '*');
+    var render = function (data) {
         hogan.postMessage({render: [data]}, '*');
     };
 
@@ -136,17 +149,15 @@
     };
 
     var getXML = function (url) {
-        var dfd = get(url);
-        return dfd.then(text2XML);
+        return get(url).then(text2XML);
     };
 
     var active = function (photo_id) {
-        var tpl = window.localStorage.template || default_tpl,
-            urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
+        var urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
             urlsize = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
 
         Q.all([getXML(urlmeta), getXML(urlsize)]).then(function (xmls) {
-            render(tpl, extend(parseMeta(xmls[0]), parseSizes(xmls[1])));
+            render(extend(parseMeta(xmls[0]), parseSizes(xmls[1])));
         });
     };
 
@@ -163,17 +174,22 @@
             if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
                 active(frags[3]);
             } else {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('share').style.display = 'none';
-                document.getElementById('template').style.display = 'none';
-                document.getElementById('nosupport').style.display = 'block';
+                hide();
             }
         });
     };
 
+    var newTemplate = function (tpl) {
+        tpl = tpl || default_tpl;
+        if (tpl !== current_tpl) {
+            current_tpl = tpl;
+            localStorage.setItem('template', tpl);
+            hogan.postMessage({compile: [tpl]}, '*');
+        }
+    };
 
     var readAndGo = function () {
-        localStorage.setItem('template', this.value || default_tpl);
+        newTemplate(this.value);
         go();
     };
 
@@ -195,6 +211,11 @@
 
     document.getElementById('template_txt').value = localStorage.getItem('template') || default_tpl;
 
-    go();
+    //Delay to wait until iframe ready
+    setTimeout(function () {
+        var event = document.createEvent('Event');
+        event.initEvent('blur', true, true);
+        document.getElementById('template_txt').dispatchEvent(event);
+    }, 100);
 
 }());
