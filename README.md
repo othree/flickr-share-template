@@ -74,6 +74,10 @@ Not all size are available if your image is small. So you can detect is it exist
     <img src="{{Large2048.source}}" width="{{Large2048.width}}" height="{{Large2048.height}}" />
     {{/Large2048}}
 
+You can write other document not just html. For example, markdown:
+
+    ![{{title}} by {{owner.username}}, on Flickr]({{Large1024.source}})
+
 Default template is using [srcset][], the listing below is with beautiful indent for you to see what's inside easily:
 
     <a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr">
