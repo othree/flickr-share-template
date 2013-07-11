@@ -1,5 +1,5 @@
-/*jslint vars: true, plusplus: true, browser: true */
-/*global chrome: false, DOMParser: false, localStorage: false, Q: false, QX: false, flickr: false*/
+/*jslint vars: true, browser: true */
+/*global chrome: false, Q: false, QX: false, flickr: false*/
 
 (function () {
     "use strict";
@@ -86,13 +86,11 @@
         document.getElementById('template_txt').value = tpl;
     });
 
-    tpldfd.done(function () {
-        //Delay to wait until iframe ready
-        setTimeout(function () {
-            var event = document.createEvent('Event');
-            event.initEvent('blur', true, true);
-            document.getElementById('template_txt').dispatchEvent(event);
-        }, 100);
+    tpldfd.delay(100).done(function () {
+        //Delay to wait iframe ready
+        var event = document.createEvent('Event');
+        event.initEvent('blur', true, true);
+        document.getElementById('template_txt').dispatchEvent(event);
     });
 
 }());

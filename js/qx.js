@@ -1,5 +1,5 @@
-/*jslint vars: true, plusplus: true */
-/*global chrome: false, window: false, document: false, XMLHttpRequest: false, DOMParser: false, localStorage: false, Q: false */
+/*jslint vars: true, plusplus: true, browser: true */
+/*global DOMParser: false, Q: false */
 
 (function (root) {
     "use strict";
