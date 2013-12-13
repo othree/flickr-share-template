@@ -6,25 +6,25 @@
 
     var urlapikey = 'private/api_key.json';
 
-    var SIZES_LABEL = {
-        Square: true,
-        Square75: true,
-        LargeSquare: true,
-        Square150: true,
-        Thumbnail: true,
-        Small: true,
-        Small240: true,
-        Small320: true,
-        Medium: true,
-        Medium500: true,
-        Medium640: true,
-        Medium800: true,
-        Large: true,
-        Large1024: true,
-        Large1600: true,
-        Large2048: true,
-        Original: true
-    };
+    var SIZES_LABEL = [
+        {label: "Square", width: 75},
+        {label: "Square75", width: 75},
+        {label: "Thumbnail", width: 100},
+        {label: "LargeSquare", width: 150},
+        {label: "Square150", width: 150},
+        {label: "Small", width: 240},
+        {label: "Small240", width: 240},
+        {label: "Small320", width: 320},
+        {label: "Medium", width: 500},
+        {label: "Medium500", width: 500},
+        {label: "Medium640", width: 640},
+        {label: "Medium800", width: 800},
+        {label: "Large", width: 1024},
+        {label: "Large1024", width: 1024},
+        {label: "Large1600", width: 1600},
+        {label: "Large2048", width: 2048},
+        // {label: "Original"}
+    ];
 
     var LABEL_MAPPING = {
         Square: 'Square75',
@@ -38,6 +38,7 @@
         var nodes = doc.querySelectorAll('rsp>sizes>size'),
             data = {},
             node = null,
+            latest = null,
             label = '',
             i;
 
@@ -54,6 +55,10 @@
             if (LABEL_MAPPING[label]) {
                 data[LABEL_MAPPING[label]] = data[label];
             }
+        }
+        for (i = 0; i < SIZES_LABEL.length; i++) {
+            latest = data[SIZES_LABEL[i]] || latest;
+            data['to' + SIZES_LABEL[i]] = latest;
         }
 
         return data;
