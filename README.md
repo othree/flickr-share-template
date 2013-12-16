@@ -78,18 +78,17 @@ You can write other document not just html. For example, markdown:
 
     ![{{title}} by {{owner.username}}, on Flickr]({{Large1024.source}})
 
-Default template is using [srcset][], the listing below is with beautiful indent for you to see what's inside easily:
+Default template is using [src-N][], the listing below is with beautiful indent for you to see what's inside easily:
 
     <a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr">
-        <img src="{{Large.sourceNoProtocol}}" width="{{Large.width}}" height="{{Large.height}}" 
-            alt="{{title}}"
-            srcset="{{Medium.sourceNoProtocol}} 768w
-                {{#Large}}, {{Large.sourceNoProtocol}} 768w 2x{{/Large}}
-                {{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}"
-         />
+      <img src="{{toLarge.sourceNoProtocol}}" width="{{toLarge.width}}" height="{{toLarge.height}}" 
+         alt="{{title}}" 
+         {{#Medium}}src-1="(max-width: 768px)  {{Medium.sourceNoProtocol}} 1x{{#Large}}, {{Large.sourceNoProtocol}} 2x{{/Large}}"{{/Medium}}
+         {{#Large2048}}src-2="{{Large2048.sourceNoProtocol}} 2x"{{/Large2048}}
+      />
     </a>
 
-[srcset]:http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/
+[src-N]:http://tabatkins.github.io/specs/respimg/Overview.html#syntax
 
 KNOWN ISSUE
 -----------
