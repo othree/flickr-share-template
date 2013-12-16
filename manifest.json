@@ -1,6 +1,6 @@
 {
     "name": "Flickr Share with Template",
-    "version": "0.1.5",
+    "version": "0.1.7",
     "manifest_version": 2,
     "minimum_chrome_version": "21",
     "icons": {
