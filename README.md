@@ -95,7 +95,3 @@ KNOWN ISSUE
 
 Mustache is very logic-less, so its hard to have if-else in your template.
 
-TODO
-----
-
-* A variable to get largest image except **Original**.
