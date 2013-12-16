@@ -68,6 +68,8 @@ An example to use **Large2048** image:
 
     <img src="{{Large2048.source}}" width="{{Large2048.width}}" height="{{Large2048.height}}" />
 
+All labels above except **Original** can add a prefix 'to', which implies the largest image can get until reach the label's size. For example, if an image's original width is 1000px. Then use 'toLarge2048' will give you 'Medium800'. This feature is designed for default image.
+
 Not all size are available if your image is small. So you can detect is it exists:
 
     {{#Large2048}}
