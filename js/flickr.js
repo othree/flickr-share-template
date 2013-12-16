@@ -57,8 +57,8 @@
             }
         }
         for (i = 0; i < SIZES_LABEL.length; i++) {
-            latest = data[SIZES_LABEL[i]] || latest;
-            data['to' + SIZES_LABEL[i]] = latest;
+            latest = data[SIZES_LABEL[i].label] || latest;
+            data['to' + SIZES_LABEL[i].label] = latest;
         }
 
         return data;
