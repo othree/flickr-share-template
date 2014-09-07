@@ -1,4 +1,4 @@
-/*jslint vars: true, plusplus: true, browser: true */
+/*jslint vars: true, plusplus: true, browser: true, forin: true */
 /*global Q: false, QX: false*/
 
 (function (root) {
@@ -99,8 +99,8 @@
 
     var get = function (photo_id) {
         return QX.get(urlapikey).then(function (api_key) {
-            var urlmeta = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
-                urlsize = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
+            var urlmeta = 'https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + api_key + '&photo_id=' + photo_id,
+                urlsize = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + api_key + '&photo_id=' + photo_id;
 
             return Q.all([QX.getXML(urlmeta), QX.getXML(urlsize)]);
         }).then(function (xmls) {
