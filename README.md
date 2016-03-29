@@ -68,7 +68,7 @@ An example to use **Large2048** image:
 
     <img src="{{Large2048.source}}" width="{{Large2048.width}}" height="{{Large2048.height}}" />
 
-All labels above except **Original** can add a prefix 'to', which implies the largest image can get until reach the label's size. For example, if an image's original width is 1000px. Then use 'toLarge2048' will give you 'Medium800'. This feature is designed for default image.
+All labels above except **Original** can add a prefix `to`, which implies the largest image can get until reach the label's size. For example, if an image's original width is 1000px. Then use `toLarge2048` will give you `Medium800`. This feature is designed for default image.
 
 Not all size are available if your image is small. So you can detect is it exists:
 
@@ -80,15 +80,14 @@ You can write other document not just html. For example, markdown:
 
     ![{{title}} by {{owner.username}}, on Flickr]({{Large1024.source}})
 
-Default template is using [srcset][], the listing below is with beautiful indent for you to see what's inside easily:
+Default template is using [srcset][], the listed code below is with beautiful indent for you to see what's inside easily:
 
-    <a class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr">
+    <a data-flickr-embed="true" class="thumbnail" href="{{url}}" title="{{title}} by {{owner.username}}, on Flickr">
       <img src="{{toLarge.sourceNoProtocol}}" width="{{toLarge.width}}" height="{{toLarge.height}}" 
-        alt="{{title}}" 
-        srcset="{{toMedium.sourceNoProtocol}} 768w
-          {{#Large2048}}, {{Large2048.sourceNoProtocol}} 2x{{/Large2048}}" />
+        alt="{{title}}, {{desc}}" 
+        srcset="{{toLarge.sourceNoProtocol}} {{toLarge.width}}w
+          {{#Large1600}}, {{Large1600.sourceNoProtocol}} {{Large1600.width}}w{{/Large1600}}" />
     </a>
-
 
 [srcset]:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset
 
