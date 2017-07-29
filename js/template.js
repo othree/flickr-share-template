@@ -40,7 +40,7 @@
     };
 
     var go = function () {
-        chrome.tabs.query({active: true}, function (tabs) {
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             var tab = tabs[0],
                 url = tab.url,
                 urlobj = document.createElement('a');
