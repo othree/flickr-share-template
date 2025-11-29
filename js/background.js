@@ -3,18 +3,28 @@
 (function () {
     "use strict";
 
-    var showPageAction = function (tabId, changeInfo, tab) {
-        var url = tab.url,
-            urlobj = document.createElement('a');
+    var showAction = function (tabId, changeInfo, tab) {
+        var url = tab.url;
 
-        urlobj.href = url;
+        if (!url) {
+            return;
+        }
+
+        var urlobj;
+        try {
+            urlobj = new URL(url);
+        } catch (e) {
+            return;
+        }
 
         var frags = urlobj.pathname.split('/');
 
         if (urlobj.hostname === 'www.flickr.com' && frags.length >= 4 && frags[1] === 'photos' && /^\d+$/.test(frags[3])) {
-            chrome.pageAction.show(tabId);
+            chrome.action.enable(tabId);
+        } else {
+            chrome.action.disable(tabId);
         }
     };
 
-	chrome.tabs.onUpdated.addListener(showPageAction);
+	chrome.tabs.onUpdated.addListener(showAction);
 }());
