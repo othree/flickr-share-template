@@ -26,5 +26,5 @@
         "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-eval'"
     },
     "permissions": ["storage", "activeTab"],
-    "host_permissions": ["https://www.flickr.com/*"]
+    "host_permissions": ["https://www.flickr.com/*", "https://flickr.com/*"]
 }
